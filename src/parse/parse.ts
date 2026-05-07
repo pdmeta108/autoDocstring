@@ -1,4 +1,5 @@
 import { getBody, getDefinition, getFunctionName, parseParameters, tokenizeDefinition } from ".";
+import { getDocstringType } from "./get_docstring_type";
 import { DocstringParts } from "../docstring_parts";
 
 export function parse(document: string, positionLine: number): DocstringParts {
@@ -7,7 +8,8 @@ export function parse(document: string, positionLine: number): DocstringParts {
 
     const parameterTokens = tokenizeDefinition(definition);
     const functionName = getFunctionName(definition);
+    const docStringType = getDocstringType(definition, positionLine);
 
-    const docstringParts = parseParameters(parameterTokens, body, functionName);
+    const docstringParts = parseParameters(parameterTokens, body, functionName, docStringType);
     return docstringParts;
 }

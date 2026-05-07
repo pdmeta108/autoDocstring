@@ -1,5 +1,5 @@
 {
-    "name": "autodocstring",
+    "name": "autodocstring-fabi",
     "displayName": "autoDocstring - Python Docstring Generator",
     "description": "Generates python docstrings automatically",
     "version": "0.6.1",

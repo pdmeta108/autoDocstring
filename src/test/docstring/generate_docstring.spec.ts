@@ -473,6 +473,7 @@ const defaultDocstringComponents: DocstringParts = {
     name: "",
     decorators: [],
     args: [],
+    attr: [],
     kwargs: [],
     returns: { type: "" },
     yields: { type: "" },

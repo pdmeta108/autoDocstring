@@ -1,4 +1,5 @@
 import { guessType } from ".";
+import { getFunctionName } from "./get_function_name";
 import {
     Argument,
     Attribute,
@@ -14,12 +15,13 @@ export function parseParameters(
     parameterTokens: string[],
     body: string[],
     functionName: string,
+    docStringType: string,
 ): DocstringParts {
     return {
         name: functionName,
         decorators: parseDecorators(parameterTokens),
         args: parseArguments(parameterTokens),
-        attr: parseAttributes(parameterTokens),
+        attr: parseAttributes(body, docStringType),
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
         yields: parseYields(parameterTokens, body),
@@ -67,21 +69,25 @@ function parseArguments(parameters: string[]): Argument[] {
     return args;
 }
 
-function parseAttributes(parameters: string[]): Attribute[] {
+function parseAttributes(body: string[], functionType: string): Attribute[] {
     const attr: Attribute[] = [];
     const excludedArgs = ["self", "cls"];
     const pattern = /^(\w+)/;
 
-    for (const param of parameters) {
-        const match = param.trim().match(pattern);
+    if (!functionType.match("class")){
+        return;
+    }
 
-        if (match == null || param.includes("=") || inArray(param, excludedArgs)) {
+    for (const line of body) {
+        const match = line.trim().match(pattern);
+
+        if (match == null || inArray(line, excludedArgs)) {
             continue;
         }
 
         attr.push({
-            var: match[1],
-            type: guessType(param),
+            var: match[0],
+            type: guessType(line),
         });
     }
 

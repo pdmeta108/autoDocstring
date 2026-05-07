@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     Argument,
+    Attribute,
     Decorator,
     DocstringParts,
     Exception,
@@ -14,6 +15,7 @@ export class TemplateData {
     public name: string;
     public decorators: Decorator[];
     public args: Argument[];
+    public attr: Attribute[];
     public kwargs: KeywordArgument[];
     public exceptions: Exception[];
     public returns: Returns;
@@ -31,6 +33,7 @@ export class TemplateData {
         this.name = docstringParts.name;
         this.decorators = docstringParts.decorators;
         this.args = docstringParts.args;
+        this.attr = docstringParts.attr;
         this.kwargs = docstringParts.kwargs;
         this.exceptions = docstringParts.exceptions;
         this.returns = docstringParts.returns;
@@ -81,6 +84,10 @@ export class TemplateData {
 
     public argsExist(): boolean {
         return this.args.length > 0;
+    }
+
+    public attrExist(): boolean {
+        return this.attr.length > 0;
     }
 
     public kwargsExist(): boolean {
@@ -142,6 +149,12 @@ export class TemplateData {
         const yields = this.yields;
         if (yields != undefined && yields.type == undefined) {
             yields.type = placeholder;
+        }
+
+        for (const attribute of this.attr) {
+            if (attribute.type === undefined) {
+                attribute.type = placeholder;
+            }
         }
     }
 }
