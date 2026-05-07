@@ -4,6 +4,7 @@ export interface DocstringParts {
     name: string;
     decorators: Decorator[];
     args: Argument[];
+    attr: Attribute[];
     kwargs: KeywordArgument[];
     exceptions: Exception[];
     returns: Returns;
@@ -15,6 +16,11 @@ export interface Decorator {
 }
 
 export interface Argument {
+    var: string;
+    type: string;
+}
+
+export interface Attribute {
     var: string;
     type: string;
 }
@@ -44,6 +50,9 @@ export function docstringPartsToString(docstringParts: DocstringParts): string {
     const argsText = docstringParts.args.length
         ? docstringParts.args.map((argument) => `${argument.var} ${argument.type}`).join("\n")
         : "N/A";
+    const attrText = docstringParts.attr.length
+        ? docstringParts.attr.map((attribute) => `${attribute.var} ${attribute.type}`).join("\n")
+        : "N/A";
     const kwargsText = docstringParts.kwargs.length
         ? docstringParts.kwargs.map((arg) => `${arg.var} ${arg.type} ${arg.default}`).join("\n")
         : "N/A";
@@ -61,6 +70,8 @@ export function docstringPartsToString(docstringParts: DocstringParts): string {
             ${decoratorsText}
         Args:
             ${argsText}
+        Attribute:
+            ${attrText}
         Kwargs:
             ${kwargsText}
         Exceptions:

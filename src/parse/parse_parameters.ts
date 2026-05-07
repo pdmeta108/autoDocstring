@@ -1,6 +1,7 @@
 import { guessType } from ".";
 import {
     Argument,
+    Attribute,
     Decorator,
     DocstringParts,
     Exception,
@@ -18,6 +19,7 @@ export function parseParameters(
         name: functionName,
         decorators: parseDecorators(parameterTokens),
         args: parseArguments(parameterTokens),
+        attr: parseAttributes(parameterTokens),
         kwargs: parseKeywordArguments(parameterTokens),
         returns: parseReturn(parameterTokens, body),
         yields: parseYields(parameterTokens, body),
@@ -63,6 +65,27 @@ function parseArguments(parameters: string[]): Argument[] {
     }
 
     return args;
+}
+
+function parseAttributes(parameters: string[]): Attribute[] {
+    const attr: Attribute[] = [];
+    const excludedArgs = ["self", "cls"];
+    const pattern = /^(\w+)/;
+
+    for (const param of parameters) {
+        const match = param.trim().match(pattern);
+
+        if (match == null || param.includes("=") || inArray(param, excludedArgs)) {
+            continue;
+        }
+
+        attr.push({
+            var: match[1],
+            type: guessType(param),
+        });
+    }
+
+    return attr;
 }
 
 function parseKeywordArguments(parameters: string[]): KeywordArgument[] {
