@@ -70,7 +70,7 @@ export function docstringPartsToString(docstringParts: DocstringParts): string {
             ${decoratorsText}
         Args:
             ${argsText}
-        Attribute:
+        Attr:
             ${attrText}
         Kwargs:
             ${kwargsText}

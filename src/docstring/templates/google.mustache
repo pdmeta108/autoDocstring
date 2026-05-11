@@ -14,6 +14,16 @@ Args:
 {{/parametersExist}}
 {{#exceptionsExist}}
 
+{{#attrExist}}
+Attributes
+----------
+{{#attr}}
+{{var}} : {{typePlaceholder}}
+    {{descriptionPlaceholder}}
+
+{{/attr}}
+{{/attrExist}}
+
 Raises:
 {{#exceptions}}
     {{type}}: {{descriptionPlaceholder}}
