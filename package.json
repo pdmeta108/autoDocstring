@@ -1,9 +1,9 @@
 {
     "name": "autodocstring-fabi",
-    "displayName": "autoDocstring - Python Docstring Generator",
+    "displayName": "autoDocstring - Python Docstring Generator - Fabi Edition",
     "description": "Generates python docstrings automatically",
     "version": "0.6.1",
-    "publisher": "njpwerner",
+    "publisher": "pdmeta108",
     "license": "SEE LICENSE IN LICENSE",
     "icon": "images/icon.png",
     "extensionKind": [

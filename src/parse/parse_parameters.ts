@@ -71,8 +71,9 @@ function parseArguments(parameters: string[]): Argument[] {
 
 function parseAttributes(body: string[], functionType: string): Attribute[] {
     const attr: Attribute[] = [];
-    const excludedArgs = ["self", "cls"];
     const pattern = /^(\w+)/;
+    const defPattern = /def /;
+    const classPattern = /class /;
 
     if (!functionType.match("class")){
         return;
@@ -81,7 +82,12 @@ function parseAttributes(body: string[], functionType: string): Attribute[] {
     for (const line of body) {
         const match = line.trim().match(pattern);
 
-        if (match == null || inArray(line, excludedArgs)) {
+        // Si la linea comienza def o class termina la operacion
+        if (line.match(defPattern) != null || line.match(classPattern) != null) {
+            break;
+        }
+
+        if (match == null || match.input.at(-1) === "," || match.input.at(-1) === "{" || match.input.at(-1) === "[") {
             continue;
         }
 
