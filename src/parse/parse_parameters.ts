@@ -1,5 +1,4 @@
 import { guessType } from ".";
-import { getFunctionName } from "./get_function_name";
 import {
     Argument,
     Attribute,
@@ -76,7 +75,7 @@ function parseAttributes(body: string[], functionType: string): Attribute[] {
     const classPattern = /class /;
 
     if (!functionType.match("class")){
-        return;
+        return attr;
     }
 
     for (const line of body) {
